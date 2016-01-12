@@ -1,0 +1,8 @@
+#!/bin/sh
+#
+# Init file for Oracle database server
+#
+# description: Oracle database server
+
+
+sudo -E -u oracle <%= node[:oracle][:rdbms][:ora_home] %>/bin/dbshut <%= node[:oracle][:rdbms][:ora_home] %>
