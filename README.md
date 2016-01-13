@@ -12,11 +12,13 @@ made porting to AIX easy to do.
 
 Features:
 * Oracle 12c Release 1 support with AIX 7.1
+(Note Customers using the cookbook must have valid licensing
+to use Oracle 12c products).
 
 
 Non-goals:
 
-*  Oracle client install is 11g R2 but has not been tested on AIX and
+* Oracle client install is 11g R2 but has not been tested on AIX and
   given the work done on AIX, expect there to be some issues if tried.
   
 * We did not port Oracle 11gr2 Release support to AIX 7.1. It was
