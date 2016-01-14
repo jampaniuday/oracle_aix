@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: oracle
+# Cookbook Name:: oracle_aix
 # Attributes::default
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,8 +37,9 @@ default[:oracle][:cliuser][:edb_item] = 'foo'
 default[:oracle][:user][:oracli_pw] = 'oracle',
 
 # General Oracle settings.
-default[:oracle][:ora_base] = '/opt/oracle'
-default[:oracle][:ora_inventory] = '/opt/oraInventory'
+default[:oracle][:ora_base] = '/oracle'
+default[:oracle][:ora_inventory] = '/oracle/oraInventory'
+default[:oracle][:orainst]       = '/etc/oraIinst.loc'
 
 # Platform options
 case node["platform"]

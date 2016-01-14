@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: oracle
+# Cookbook Name:: oracle_aix
 # Recipe:: clibin
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -83,10 +83,10 @@ node[:oracle][:client][:install_files].each do |zip_file|
 end
 
 # This oraInst.loc specifies the standard oraInventory location.
-file "#{node[:oracle][:ora_base]}/oraInst.loc" do
+file "#{node[:oracle][:orainst]}" do
   owner "oracli"
   group 'oinstall'
-  content "inst_group=oinstall\ninventory_loc=/opt/oraInventory\n"
+  content "inst_group=oinstall\ninventory_loc=#{node[:oracle][:ora_inventory]}\n"
 end
 
 directory node[:oracle][:ora_inventory] do
@@ -111,7 +111,7 @@ end
 bash 'run_client_installer' do
   cwd "#{node[:oracle][:client][:install_dir]}/client"
   environment (node[:oracle][:client][:env])
-  code "sudo -E -u oracli ./runInstaller -showProgress -silent -waitforcompletion -ignoreSysPrereqs -responseFile #{node[:oracle][:client][:install_dir]}/cli11R23.rsp -invPtrLoc #{node[:oracle][:ora_base]}/oraInst.loc"
+  code "sudo -E -u oracli ./runInstaller -showProgress -silent -waitforcompletion -ignoreSysPrereqs -responseFile #{node[:oracle][:client][:install_dir]}/cli11R23.rsp -invPtrLoc #{node[:oracle][:orainst]}"
   returns [0, 6]
 end
 

@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: oracle
+# Cookbook Name:: oracle_aix
 # Recipe:: dbbin
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -51,12 +51,12 @@ when "redhat", "centos", "fedora"
   yum_package 'unzip'
 end
 
-log '****************************************************************************'
-log '*                                                                          *'
-log '*                   Oracle Recipe:dbbin                                    *'
-log '*                Unpacking Oracle binaries ...                             *'
-log '*                                                                          *'
-log '****************************************************************************'
+log '*************************************************'
+log '*                                               *'
+log '*          Oracle Recipe:dbbin                  *'
+log '*       Unpacking Oracle binaries ...           *'
+log '*                                               *'
+log '*************************************************'
 
 # Fetching the install media with curl and unzipping them.
 # We run two resources to avoid chef-client's runaway memory usage resulting
@@ -83,10 +83,10 @@ node[:oracle][:rdbms][:install_files].each do |zip_file|
 end
 
 # This oraInst.loc specifies the standard oraInventory location.
-file "#{node[:oracle][:ora_base]}/oraInst.loc" do
+file "#{node[:oracle][:orainst]}" do
   owner "oracle"
   group 'oinstall'
-  content "inst_group=oinstall\ninventory_loc=/opt/oraInventory\n"
+  content "inst_group=oinstall\ninventory_loc=#{node[:oracle][:ora_inventory]}\n"
 end
 
 directory node[:oracle][:ora_inventory] do
@@ -151,7 +151,7 @@ if node[:oracle][:rdbms][:dbbin_version] == "11g"
   bash 'run_rdbms_installer' do
     cwd "#{node[:oracle][:rdbms][:install_dir]}/database"
     environment (node[:oracle][:rdbms][:env])
-    code "sudo -E -u oracle ./runInstaller -showProgress -silent -waitforcompletion -ignoreSysPrereqs -responseFile #{node[:oracle][:rdbms][:install_dir]}/db11R23.rsp -invPtrLoc #{node[:oracle][:ora_base]}/oraInst.loc"
+    code "sudo -E -u oracle ./runInstaller -showProgress -silent -waitforcompletion -ignoreSysPrereqs -responseFile #{node[:oracle][:rdbms][:install_dir]}/db11R23.rsp -invPtrLoc #{node[:oracle][:orainst]}"
     returns [0, 6]
   end
 
@@ -188,18 +188,18 @@ if node[:oracle][:rdbms][:dbbin_version] == "11g"
   end
 else
  
-  log '****************************************************************************'
-  log '*                                                                          *'
-  log '*                        Oracle Recipe:dbbin                               *'
-  log '*            Running the Silent Oracle Binary Install ....                 *'
-  log '*                      This takes minutes.                                 *'
-  log '*                                                                          *'
-  log '****************************************************************************'
+  log '**********************************************************'
+  log '*                                                        *'
+  log '*             Oracle Recipe:dbbin                        *'
+  log '*   Running the Silent Oracle Binary Install ....        *'
+  log '*             This takes minutes.                        *'
+  log '*                                                        *'
+  log '**********************************************************'
 
   bash 'run_rdbms_installer' do
     cwd "#{node[:oracle][:rdbms][:install_dir]}/database"
     environment (node[:oracle][:rdbms][:env_12c])
-    code "sudo -E -u oracle ./runInstaller -showProgress -silent -waitforcompletion -ignoreSysPrereqs -responseFile #{node[:oracle][:rdbms][:install_dir]}/db12c.rsp -invPtrLoc #{node[:oracle][:ora_base]}/oraInst.loc"
+    code "sudo -E -u oracle ./runInstaller -showProgress -silent -waitforcompletion -ignoreSysPrereqs -responseFile #{node[:oracle][:rdbms][:install_dir]}/db12c.rsp -invPtrLoc #{node[:oracle][:orainst]}"
     returns [0, 6]
   end
  

@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: oracle
+# Cookbook Name:: oracle_aix
 # Recipe:: oracli
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,12 +20,12 @@
 
 
 # Set up and configure the oracle client user.
-include_recipe 'oracle::oracli_user_config'
+include_recipe 'oracle_aix::oracli_user_config'
 
 # Install dependencies and configure kernel parameters.
-include_recipe 'oracle::deps_cli_install'
-include_recipe 'oracle::kernel_params'
+include_recipe 'oracle_aix::deps_cli_install'
+include_recipe 'oracle_aix::kernel_params'
 
 # Baseline install for Oracle client + latest patch.
-include_recipe 'oracle::clibin' unless node[:oracle][:client][:is_installed]
-include_recipe 'oracle::cli_latest_patch' unless node[:oracle][:client][:latest_patch][:is_installed]
+include_recipe 'oracle_aix::clibin' unless node[:oracle][:client][:is_installed]
+include_recipe 'oracle_aix::cli_latest_patch' unless node[:oracle][:client][:latest_patch][:is_installed]

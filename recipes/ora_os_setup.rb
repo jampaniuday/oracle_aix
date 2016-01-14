@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: oracle
+# Cookbook Name:: oracle_aix
 # Recipe:: ora_os_setup
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,16 +18,16 @@
 # kernel parameters.
 
 # Set up and configure the oracle user.
-include_recipe 'oracle::oracle_user_config'
+include_recipe 'oracle_aix::oracle_user_config'
 
 ## Install dependencies and configure kernel parameters.
 # Node attribute changes for 12c, if default[:oracle][:rdbms][:dbbin_version] is set to 12c
 if node[:oracle][:rdbms][:dbbin_version] == "12c"
   node.set[:oracle][:rdbms][:deps] = node[:oracle][:rdbms][:deps_12c]
-  include_recipe 'oracle::deps_install'
+  include_recipe 'oracle_aix::deps_install'
 else
-  include_recipe 'oracle::deps_install'
+  include_recipe 'oracle_aix::deps_install'
 end
 
 # Setting up kernel parameters
-include_recipe 'oracle::kernel_params'
+include_recipe 'oracle_aix::kernel_params'

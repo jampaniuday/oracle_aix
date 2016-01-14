@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: oracle
+# Cookbook Name:: oracle_aix
 # Recipe:: ruby-oci8
 # Author:: Julian C. Dunn (<jdunn@getchef.com>)
 #

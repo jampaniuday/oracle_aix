@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: oracle
+# Cookbook Name:: oracle_aix
 # Recipe:: default
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,30 +17,33 @@
 # Configure Oracle user, install the RDBMS's dependencies, configure
 # kernel parameters, install the binaries and apply latest patch.
 
-log '****************************************************************************'
-log '*                                                                          *'
-log '*                        Oracle Recipe                                     *'
-log '*          Creating groups, users, .profile, passwords ...                 *'
-log '*                                                                          *'
-log '****************************************************************************'
+log '*********************************************************'
+log '*                                                       *'
+log '*                    Oracle Recipe                      *'
+log '*      Creating groups, users, .profile, passwords ...  *'
+log '*                                                       *'
+log '*********************************************************'
+
+# Add the linux tools needed by the cookbook
+include_recipe 'oracle_aix::linux_tools'
 
 # Set up and configure the oracle user.
-include_recipe 'oracle::oracle_user_config'
+include_recipe 'oracle_aix::oracle_user_config'
 
 ## Install dependencies and configure kernel parameters.
 # Node attribute changes for 12c, if default[:oracle][:rdbms][:dbbin_version] is set to 12c
 if node[:oracle][:rdbms][:dbbin_version] == "12c"
   node.set[:oracle][:rdbms][:deps] = node[:oracle][:rdbms][:deps_12c]
-  include_recipe 'oracle::deps_install'
+  include_recipe 'oracle_aix::deps_install'
 else
-  include_recipe 'oracle::deps_install'
+  include_recipe 'oracle_aix::deps_install'
 end
 
 # Setting up kernel parameters
-include_recipe 'oracle::kernel_params'
+include_recipe 'oracle_aix::kernel_params'
 
 # Baseline install for Oracle itself
-include_recipe 'oracle::dbbin' unless node[:oracle][:rdbms][:is_installed]
+include_recipe 'oracle_aix::dbbin' unless node[:oracle][:rdbms][:is_installed]
 
 ## Patching oracle binaries to the latest patch
 # Node attribute changes for 12c, if default[:oracle][:rdbms][:dbbin_version] is set to 12c
@@ -48,8 +51,8 @@ if node[:oracle][:rdbms][:dbbin_version] == "12c"
   node.set[:oracle][:rdbms][:ora_home] = node[:oracle][:rdbms][:ora_home_12c]
   node.set[:oracle][:rdbms][:env] = node[:oracle][:rdbms][:env_12c]
   node.set[:oracle][:rdbms][:latest_patch][:dirname] = node[:oracle][:rdbms][:latest_patch][:dirname_12c]
-  include_recipe 'oracle::latest_dbpatch' unless node[:oracle][:rdbms][:latest_patch][:is_installed]
+  include_recipe 'oracle_aix::latest_dbpatch' unless node[:oracle][:rdbms][:latest_patch][:is_installed]
 else
-  include_recipe 'oracle::latest_dbpatch' unless node[:oracle][:rdbms][:latest_patch][:is_installed]
+  include_recipe 'oracle_aix::latest_dbpatch' unless node[:oracle][:rdbms][:latest_patch][:is_installed]
 end
 

@@ -3,9 +3,9 @@ Description
 This chef cookbook is based off the work originally published
 by Ari Riikonen called Oracle chef cookbook version 1.2.2
 
-It installs and configures the Oracle RDBMS, patches it to the latest
+It installs and configures the Oracle RDBMS, with patches, to the latest
 version of 12c for the AIX Operating System. 
-It has not been tested on AIX with 11g R2.
+The version with 11g R2 has NOT been tested on AIX.
 
 I wish to acknowldege Air Riikonen's great work here in which
 made porting to AIX easy to do. 
@@ -17,12 +17,18 @@ to use Oracle 12c products).
 
 
 Non-goals:
-
 * Oracle client install is 11g R2 but has not been tested on AIX and
   given the work done on AIX, expect there to be some issues if tried.
-  
 * We did not port Oracle 11gr2 Release support to AIX 7.1. It was
   a non-goal.
+
+DiskSpace:
+==========
+Available Disk space file system:
+/oracle         - default base and temp install area: 10 GB
+/oracle/oradata - default oracle data directory     : 10 GB
+/opt            - chef installation                 :  1 GB
+/tmp            - available temp space              : 10 GB
 
 Quickstart (database)
 =====================
@@ -40,10 +46,10 @@ Quickstart (database)
   name "ora_12c_aix"
   description "Role applied to Oracle 12c AIX test machines."
   
-  run_list 'recipe[aix-base-setup]', 'recipe[oracle]',
-    'recipe[oracle::logrotate_alert_log]',
-    'recipe[oracle::logrotate_listener]',
-    'recipe[oracle::createdb]'
+  run_list 'recipe[aix-base-setup]', 'recipe[oracle_aix]',
+    'recipe[oracle_aix::logrotate_alert_log]',
+    'recipe[oracle_aix::logrotate_listener]',
+    'recipe[oracle_aix::createdb]'
 
   override_attributes :oracle => {
     :rdbms => {
@@ -53,10 +59,10 @@ Quickstart (database)
       :dbsnmp_pw      => 'oracle',
       :latest_patch => {
         :dirname_12c =>      '20831110',
-        :url =>              'http://129.40.71.31/CHEF/link.CHEF/zips/aix/oracle/p20831110_121020_AIX64-5L.zip'},
-      :opatch_update_url =>  'http://129.40.71.31/CHEF/link.CHEF/zips/aix/oracle/p6880880_121010_AIX64-5L.zip',
-      :install_files     => ['http://129.40.71.31/CHEF/link.CHEF/zips/aix/oracle/V73231-01_1of2.zip',
-                             'http://129.40.71.31/CHEF/link.CHEF/zips/aix/oracle/V73231-01_2of2.zip'],
+        :url =>              'http://localhost/CHEF/oracle/p20831110_121020_AIX64-5L.zip'},
+      :opatch_update_url =>  'http://localhost/CHEF/oracle/p6880880_121010_AIX64-5L.zip',
+      :install_files     => ['http://localhost/CHEF/oracle/V73231-01_1of2.zip',
+                             'http://localhost/CHEF/oracle/V73231-01_2of2.zip'],
       :dbbin_version     => '12c',
       },
     :user => {

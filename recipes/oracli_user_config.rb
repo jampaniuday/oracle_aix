@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: oracle
+# Cookbook Name:: oracle_aix
 # Recipe:: oracli_user_config
 #
 # Licensed under the Apache License, Version 2.0 (the "License");

@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: oracle
+# Cookbook Name:: oracle_aix
 # Recipe:: latest_dbpatch
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,12 +31,12 @@ unless node[:oracle][:rdbms][:latest_patch][:is_installed]
     end
   end
 
-  log '****************************************************************************'
-  log '*                                                                          *'
-  log '*                   Oracle Recipe:latest_dbpatch                           *'
-  log '*                 Unzipping the latest patch file ...                      *'
-  log '*                                                                          *'
-  log '****************************************************************************'
+  log '***********************************************'
+  log '*                                             *'
+  log '*        Oracle Recipe:latest_dbpatch         *'
+  log '*      Unzipping the latest patch file ...    *'
+  log '*                                             *'
+  log '***********************************************'
 
   # Fetching the latest 11.2.0.3.0 patch media with curl.
   # We use curl instead of wget because the latter caused Chef Client's
@@ -66,12 +66,12 @@ unless node[:oracle][:rdbms][:latest_patch][:is_installed]
     end
   end
 
-  log '****************************************************************************'
-  log '*                                                                          *'
-  log '*                   Oracle Recipe:latest_dbpatch                           *'
-  log '*                  Unzipping the OPatch Utility ...                        *'
-  log '*                                                                          *'
-  log '****************************************************************************'
+  log '*********************************************'
+  log '*                                           *'
+  log '*      Oracle Recipe:latest_dbpatch         *'
+  log '*     Unzipping the OPatch Utility ...      *'
+  log '*                                           *'
+  log '*********************************************'
 
   # Setting up OPatch.
   bash 'patch_rdbms_opatch' do
@@ -107,13 +107,13 @@ unless node[:oracle][:rdbms][:latest_patch][:is_installed]
     end
   end
 
-  log '****************************************************************************'
-  log '*                                                                          *'
-  log '*                   Oracle Recipe:latest_dbpatch                           *'
-  log '*                Applying the latest patch file ...                        *'
-  log '*                    This takes minutes                                    *'
-  log '*                                                                          *'
-  log '****************************************************************************'
+  log '**********************************************'
+  log '*                                            *'
+  log '*       Oracle Recipe:latest_dbpatch         *'
+  log '*     Applying the latest patch file ...     *'
+  log '*        This takes minutes                  *'
+  log '*                                            *'
+  log '**********************************************'
 
   # Apply latest patch.
   bash 'apply_latest_patch_rdbms' do
@@ -127,7 +127,7 @@ unless node[:oracle][:rdbms][:latest_patch][:is_installed]
   end
   
   # Set the rdbms version attribute.
-  include_recipe 'oracle::get_version'
+  include_recipe 'oracle_aix::get_version'
     
   # Set flag indicating latest patch has been applied.
   ruby_block 'set_latest_patch_install_flag' do

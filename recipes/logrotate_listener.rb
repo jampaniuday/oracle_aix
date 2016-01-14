@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: oracle
+# Cookbook Name:: oracle_aix
 # Recipe:: default
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,20 +21,13 @@
 case node["platform"]
 when "redhat", "centos", "fedora"
   package "logrotate"
-when "aix"
-  directory '/etc/logrotate.d' do
+
+  # By default, this will rotate the listener.log files every week
+  # and will keep the rotated logs for 5 weeks.
+  template "/etc/logrotate.d/oracle-listener" do
+    source 'oracle-listener'
     owner 'root'
     group #{[:oracle][:rootgrp]}
-    mode '0755'
-    action :create
+    mode '0644'
   end
-end
-
-# By default, this will rotate the listener.log files every week
-# and will keep the rotated logs for 5 weeks.
-cookbook_file "/etc/logrotate.d/oracle-listener" do
-  source 'oracle-listener'
-  owner 'root'
-  group #{[:oracle][:rootgrp]}
-  mode '0644'
 end

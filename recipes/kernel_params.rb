@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: oracle
+# Cookbook Name:: oracle_aix
 # Recipe:: kernel_params
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -47,7 +47,7 @@ when "aix"
     not_if  "lsattr -D -l sys0 -a maxuproc | perl -lane '($f1,$val,$rest)=split; exit($val>=16384) > /dev/null 2>&1'"
   end
 
-  execute "change_maxuproc_on_AIX" do
+  execute "change_iocp_on_AIX" do
     command "chdev -l iocp0 -P -a autoconfig=available"
     not_if "lsdev -Cc iocp | grep Available > /dev/null 2>&1"
   end

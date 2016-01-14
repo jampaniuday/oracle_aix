@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: oracle
+# Cookbook Name:: oracle_aix
 # Recipe:: cli_latest_patch
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -94,7 +94,7 @@ unless node[:oracle][:client][:latest_patch][:is_installed]
   end
   
   # Set the rdbms version attribute.
-  include_recipe 'oracle::get_cli_version'
+  include_recipe 'oracle_aix::get_cli_version'
     
   # Set flag indicating latest patch has been applied.
   ruby_block 'set_latest_patch_install_flag' do

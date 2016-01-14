@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: oracle
+# Cookbook Name:: oracle_aix
 # Recipe:: createdb
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,11 +16,11 @@
 #
 ## Create Oracle databases.
 #
-  log '****************************************************************************'
-  log '*                                                                          *'
-  log '*                        Oracle Recipe:createdb                            *'
-  log '*                                                                          *'
-  log '****************************************************************************'
+  log '****************************************'
+  log '*                                      *'
+  log '*      Oracle Recipe:createdb          *'
+  log '*                                      *'
+  log '****************************************'
 
 
 directory node[:oracle][:rdbms][:dbs_root] do
@@ -67,13 +67,13 @@ node[:oracle][:rdbms][:dbs].each_key do |db|
     next
   end
 
-  log '****************************************************************************'
-  log '*                                                                          *'
-  log '*                   Oracle Recipe:createdb                                 *'
-  log '*               Executing the silent DBMS creation ...                     *'
-  log '*                    This takes minutes                                    *'
-  log '*                                                                          *'
-  log '****************************************************************************'
+  log '*****************************************************'
+  log '*                                                   *'
+  log '*          Oracle Recipe:createdb                   *'
+  log '*      Executing the silent DBMS creation ...       *'
+  log '*           This takes minutes                      *'
+  log '*                                                   *'
+  log '*****************************************************'
 
   ## Create database. 
   if node[:oracle][:rdbms][:dbbin_version] == "12c"
@@ -156,13 +156,13 @@ node[:oracle][:rdbms][:dbs].each_key do |db|
         environment (node[:oracle][:rdbms][:env])
       end
       # Running emca.
-      log '****************************************************************************'
-      log '*                                                                          *'
-      log '*                   Oracle Recipe:createdb                                 *'
-      log '*               Create the OEM emca repository                             *' 
-      log '*                    This takes minutes                                    *'
-      log '*                                                                          *'
-      log '****************************************************************************'
+      log '****************************************'
+      log '*                                      *'
+      log '*          Oracle Recipe:createdb      *'
+      log '*      Create the OEM emca repository  *' 
+      log '*           This takes minutes         *'
+      log '*                                      *'
+      log '****************************************'
 
       execute "conf_dbcontrol_#{db}" do
         command "export ORACLE_HOME=#{node[:oracle][:rdbms][:ora_home]}; emca -config dbcontrol db -repos create -respFile #{node[:oracle][:rdbms][:ora_home]}/em.rsp"

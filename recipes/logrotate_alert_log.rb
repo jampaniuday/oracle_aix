@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: oracle
+# Cookbook Name:: oracle_aix
 # Recipe:: default
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,20 +21,12 @@
 case node["platform"]
 when "redhat", "centos", "fedora"
   package "logrotate"
-when "aix"
-  directory '/etc/logrotate.d' do
+  # By default, this will rotate the alert_*.log files every week
+  # and will store 10400 weeks' worth of logs.
+  template "/etc/logrotate.d/oracle-alert-log" do
+    source 'oracle-alert-log'
     owner 'root'
     group #{[:oracle][:rootgrp]}
-    mode '0755'
-    action :create
+    mode '0644'
   end
-end
-
-# By default, this will rotate the alert_*.log files every week
-# and will store 10400 weeks' worth of logs.
-cookbook_file "/etc/logrotate.d/oracle-alert-log" do
-  source 'oracle-alert-log'
-  owner 'root'
-  group #{[:oracle][:rootgrp]}
-  mode '0644'
 end
