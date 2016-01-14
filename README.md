@@ -22,13 +22,12 @@ Non-goals:
 * We did not port Oracle 11gr2 Release support to AIX 7.1. It was
   a non-goal.
 
-DiskSpace:
-==========
-Available Disk space file system:
-/oracle         - default base and temp install area: 10 GB
-/oracle/oradata - default oracle data directory     : 10 GB
-/opt            - chef installation                 :  1 GB
-/tmp            - available temp space              : 10 GB
+DiskSpace Requirements
+========= ============
+/oracle         - default base and install area: 10 GB
+/oracle/oradata - default oracle data directory: 10 GB
+/opt            - chef installation:             .5 GB
+/tmp            - available temp space:          10 GB
 
 Quickstart (database)
 =====================
@@ -46,14 +45,11 @@ Quickstart (database)
   name "ora_12c_aix"
   description "Role applied to Oracle 12c AIX test machines."
   
-  run_list 'recipe[aix-base-setup]', 'recipe[oracle_aix]',
-    'recipe[oracle_aix::logrotate_alert_log]',
-    'recipe[oracle_aix::logrotate_listener]',
-    'recipe[oracle_aix::createdb]'
+  run_list 'recipe[oracle_aix]','recipe[oracle_aix::createdb]'
 
   override_attributes :oracle => {
     :rdbms => {
-      :dbs_root       => "/opt/oradata",
+      :dbs_root       => "/oracle/oradata",
       :sys_pw         => 'oracle',
       :system_pw      => 'oracle',
       :dbsnmp_pw      => 'oracle',
