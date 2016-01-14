@@ -22,7 +22,7 @@ Non-goals:
 * We did not port Oracle 11gr2 Release support to AIX 7.1. It was
   a non-goal.
 
-DiskSpace Requirements
+DiskSpace Requirements - assumes space exists in following directories
 ========= ============
 /oracle         - default base and install area: 10 GB
 /oracle/oradata - default oracle data directory: 10 GB
